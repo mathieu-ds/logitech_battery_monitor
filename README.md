@@ -65,7 +65,7 @@ git clone https://github.com/yourusername/logitech_battery_monitor.git
 cd logitech_battery_monitor
 ```
 
-Or download `logitech_battery_final.py` directly. 
+Or download `logitech_battery_monitor.py` directly. 
 
 ### 2.  Create Virtual Environment (Optional)
 
@@ -91,7 +91,7 @@ The script uses only Python standard library modules:
 ### Basic Usage
 
 ```bash
-python logitech_battery_final.py
+python logitech_battery_monitor.py
 ```
 
 ### Command Line Arguments
@@ -106,16 +106,16 @@ python logitech_battery_final.py
 
 ```bash
 # Single reading
-python logitech_battery_final. py
+python logitech_battery_monitor.py
 
 # JSON output (for API/scripts)
-python logitech_battery_final.py --json
+python logitech_battery_monitor.py --json
 
 # Continuous monitoring every 30 seconds
-python logitech_battery_final.py --loop
+python logitech_battery_monitor.py --loop
 
 # Continuous monitoring every 10 seconds
-python logitech_battery_final.py --loop --interval 10
+python logitech_battery_monitor.py --loop --interval 10
 ```
 
 ---
@@ -216,7 +216,7 @@ python logitech_battery_final.py --loop --interval 10
                            │ Reads from
                            ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                  logitech_battery_final.py                      │
+│                  logitech_battery_monitor.py                      │
 │                    (This Script)                                │
 │                                                                 │
 │  - Opens SQLite database (read-only)                            │
@@ -364,7 +364,7 @@ import json
 
 # Run the script and capture JSON output
 result = subprocess.run(
-    ['python', 'logitech_battery_final.py', '--json'],
+    ['python', 'logitech_battery_monitor.py', '--json'],
     capture_output=True,
     text=True
 )
@@ -385,7 +385,7 @@ Run every 5 minutes and log to file:
 # Create scheduled task
 $action = New-ScheduledTaskAction `
     -Execute "python" `
-    -Argument "C:\path\to\logitech_battery_final.py --json >> C:\logs\battery.log"
+    -Argument "C:\path\to\logitech_battery_monitor.py --json >> C:\logs\battery.log"
 
 $trigger = New-ScheduledTaskTrigger `
     -Once -At (Get-Date) `
@@ -405,7 +405,7 @@ Use the JSON output with a command line sensor:
 sensor:
   - platform: command_line
     name: Logitech Headset Battery
-    command: 'python /path/to/logitech_battery_final.py --json'
+    command: 'python /path/to/logitech_battery_monitor.py --json'
     value_template: '{{ value_json.devices[0].battery_percent }}'
     unit_of_measurement: '%'
     json_attributes:
@@ -417,7 +417,7 @@ sensor:
 
 ```powershell
 # Get battery status as PowerShell object
-$battery = python logitech_battery_final.py --json | ConvertFrom-Json
+$battery = python logitech_battery_monitor.py --json | ConvertFrom-Json
 
 foreach ($device in $battery.devices) {
     Write-Host "$($device.device): $($device.battery_percent)%"
